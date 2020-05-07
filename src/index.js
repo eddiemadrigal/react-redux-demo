@@ -4,31 +4,29 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { createStore, combineReducers } from 'redux';
-
-function productsReducer(state = [], action) {
-  return state;
-}
-
-function userReducer(state = '', action) {
-  return state;
-}
+import { Provider } from 'react-redux';
+import productsReducer from './reducers/products-reducer';
+import userReducer from './reducers/user-reducer';
 
 const allReducers = combineReducers({
   products: productsReducer,
   user: userReducer
 });
 
-const store = createStore(allReducers, {
-  products: [{ name: "iPhone"}],
-  user: "Erika"
-});
+const store = createStore(
+  allReducers, {
+    products: [{ name: "iPhone"}],
+    user: "User"
+  }, 
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
-console.log(store.getState());
+console.log("Initial state: ", store.getState());
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
